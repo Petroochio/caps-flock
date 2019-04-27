@@ -1,0 +1,23 @@
+{
+  "extends": [
+    "airbnb-base"
+  ],
+  "parser": "babel-eslint",
+  "rules": {
+    "no-param-reassign": "warn",
+    "function-paren-newline": ["error", "multiline"],
+    "linebreak-style": 0,
+    "no-unused-vars": 1,
+    "comma-dangle": ["error", {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "functions": "ignore"
+    }]
+  },
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "THREE": true
+  }
+}
