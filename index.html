@@ -10,11 +10,105 @@
       }
       body {
         overflow: hidden;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      }
+      
+      #start-word {
+        position: absolute;
+        font-size: 50px;
+        top: calc(50vh);
+      }
+
+      #end-word {
+        position: absolute;
+        font-size: 50px;
+        top: calc(55vh);
+      }
+
+      #player1 {
+        position: absolute;
+        font-size: 50px;
+        top: calc(50vh - 50px);
+        left: calc(45vw);
+        /* transition: display 0.5s; */
+      }
+
+      #player1-total {
+        position: absolute;
+        font-size: 50px;
+        top: calc(50vh - 50px);
+        left: calc(45vw);
+        transition: left 0.3s ease-out;
+      }
+
+      #player2 {
+        position: absolute;
+        font-size: 50px;
+        top: calc(50vh + 50px);
+        left: calc(45vw);
+        /* transition: display 0.5s; */
+      }
+
+      #player2-total {
+        position: absolute;
+        font-size: 50px;
+        top: calc(50vh + 50px);
+        left: calc(45vw);
+        transition: left 0.3s ease-out;
+      }
+
+      .letter {
+        color: #ccc;
+        width: 40px;
+        display: inline-block;
+        text-align: center;
+      }
+
+      .letter-total {
+        color: #ddd;
+        width: 40px;
+        display: inline-block;
+        text-align: center;
+      }
+
+      .cleared {
+        color: #222 !important;
+      }
+
+      .cursor {
+        border-bottom: 2px solid #222;
+        animation: 1.5s blink step-end infinite;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      @keyframes blink {
+        from, to {
+          border-color: #222;
+        }
+
+        50% {
+          border-color: transparent;
+        }
       }
     </style>
   </head>
 
   <body>
+    <div id="title"></div>
+    <div id="start-word"></div>
+
+    <div id="player1-total" class="hidden"></div>
+    <div id="player1" class="hidden"></div>
+
+    <div id="player2-total" class="hidden"></div>
+    <div id="player2" class="hidden"></div>
+
+    <div id="end-content"></div>
+    <div id="end-word"></div>
+
     <script>require('./build/app');</script>
   </body>
 </html>
