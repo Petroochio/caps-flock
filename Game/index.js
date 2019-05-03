@@ -33,11 +33,17 @@ let gameState = 'START';
 const startState = {
   word: 0,
   letter: 0,
+  shakeTime: 0,
+  shakeX: 0,
+  shakeY: 0,
 };
 
 const endState = {
   word: 'RESET',
   letter: 0,
+  shakeTime: 0,
+  shakeX: 0,
+  shakeY: 0,
 };
 
 const p1 = {
@@ -45,6 +51,9 @@ const p1 = {
   word: 0,
   letter: 0,
   offset: 0,
+  shakeTime: 0,
+  shakeX: 0,
+  shakeY: 0,
 };
 
 const p2 = {
@@ -52,6 +61,9 @@ const p2 = {
   word: 0,
   letter: 0,
   offset: 0,
+  shakeTime: 0,
+  shakeX: 0,
+  shakeY: 0,
 };
 
 /**
@@ -91,6 +103,64 @@ function triggerEnd(player, pid) {
   endWord.style.left = window.innerWidth / 2 - (endState.word.length * 20) + 'px';
 }
 
+function updateStartShake(dt) {
+  const wordOffset = window.innerWidth / 2 - (startWords[startState.word].length * 20);
+  const startElement = document.querySelector('#start-word');
+  if (startState.shakeTime > 0) {
+    startState.shakeTime -= dt;
+    const shakeAmount = startState.shakeTime / 2 * 0.5;
+    startElement.style.left = wordOffset + (Math.cos(shakeAmount) * startState.shakeX) + 'px';
+    startElement.style.top = window.innerHeight / 2 + (Math.cos(shakeAmount) * startState.shakeY) + 'px';
+  } else {
+    startElement.style.left = wordOffset + 'px';
+    startElement.style.top = window.innerHeight / 2 + 'px';
+  }
+}
+
+function updateEndShake(dt) {
+  const wordOffset = window.innerWidth / 2 - (endState.word.length * 20);
+  const endElement = document.querySelector('#end-word');
+  if (endState.shakeTime > 0) {
+    endState.shakeTime -= dt;
+    const shakeAmount = endState.shakeTime / 0.5 * 0.5;
+    endElement.style.left = wordOffset + (Math.cos(shakeAmount) * endState.shakeX) + 'px';
+    endElement.style.top = window.innerHeight / 2 + (Math.cos(shakeAmount) * endState.shakeY) + 'px';
+  } else {
+    endElement.style.left = wordOffset + 'px';
+    endElement.style.top = window.innerHeight / 2 + 'px';
+  }
+}
+
+function updatePlayerShake(dt, player, topOffset) {
+  const playerEl = document.querySelector(player.id);
+  if (player.shakeTime > 0) {
+    player.shakeTime -= dt;
+    const shakeAmount = player.shakeTime / 0.5 * 0.5;
+    playerEl.style.left = window.innerWidth * 0.45 + (Math.cos(shakeAmount) * player.shakeX) + 'px';
+    playerEl.style.top = topOffset + (Math.cos(shakeAmount) * player.shakeY) + 'px';
+  } else {
+    playerEl.style.left = window.innerWidth * 0.45 + 'px';
+    playerEl.style.top = topOffset + 'px';
+  }
+}
+
+function updateShake(dt) {
+  // start shake
+  switch (gameState) {
+    case 'START':
+      updateStartShake(dt);
+      break;
+    case 'END':
+      updateEndShake(dt);
+      break;
+    case 'MAIN':
+      updatePlayerShake(dt, p1, window.innerHeight / 2 - 50);
+      updatePlayerShake(dt, p2, window.innerHeight / 2 + 50);
+      break;
+    default: break;
+  }
+}
+
 function update() {
   // get delta time
   const currTime = Date.now();
@@ -104,7 +174,7 @@ function update() {
     keyUpdateTime = KEY_UPDATE_WINDOW;
   }
 
-  // Update screen shake
+  updateShake(dt);
 
   keyStates.forEach((k) => { k.time -= dt; });
   requestAnimationFrame(update);
@@ -165,6 +235,9 @@ function triggerMain() {
 function checkStartLetter(letter) {
   if (startWords[startState.word][startState.letter] === letter) {
     startState.letter += 1;
+    startState.shakeX = Math.random() > 0.5 ? 1 : -1;
+    startState.shakeY = Math.random() > 0.5 ? 1 : -1;
+    startState.shakeTime = 100;
   }
 
   if (startState.letter >= startWords[startState.word].length) {
@@ -230,6 +303,9 @@ function triggerStart() {
 function checkEndLetter(letter) {
   if (endState.word[endState.letter] === letter) {
     endState.letter += 1;
+    endState.shakeX = Math.random() > 0.5 ? 1 : -1;
+    endState.shakeY = Math.random() > 0.5 ? 1 : -1;
+    endState.shakeTime = 100;
   }
 
   if (endState.letter >= endState.word.length) {
@@ -257,6 +333,9 @@ function checkEndLetter(letter) {
 function checkLetter(letter, player, pid, wordList) {
   if (wordList[player.word][player.letter] === letter) {
     player.letter += 1;
+    player.shakeTime = 100;
+    player.shakeX = Math.random() > 0.5 ? 1 : -1;
+    player.shakeY = Math.random() > 0.5 ? 1 : -1;
   }
 
   if (player.letter >= wordList[player.word].length) {
