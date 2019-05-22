@@ -1,16 +1,26 @@
 export const p1Words = [
-  'PETER',
-  // 'HAS',
-  // 'SOCKS',
-  // 'THAT',
-  // 'ROCKS',
+  'THE',
+  'UNIVERSE',
+  'IS',
+  'A',
+  'BIG',
+  'PLACE',
+  'PERHAPS',
+  'THE',
+  'BIGGEST',
 ];
 
 export const p2Words = [
-  'CLEMENT',
-  'IS',
-  'REALY',
-  'SMART',
+  'YOU',
+  'LIVE',
+  'AND',
+  'YOU',
+  'LEARN',
+  'AT',
+  'ANY',
+  'RATE',
+  'YOU',
+  'LIVE',
 ];
 
 export const startWords = [

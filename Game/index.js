@@ -25,6 +25,7 @@ const keyStates = LETTER_MAP
   .map(l => ({
     letter: l,
     state: STATES.KEY.UP,
+    frames: [],
     time: 0,
   }));
 
@@ -389,8 +390,21 @@ function init() {
           console.log(currKey.letter, 'is down');
 
           // call keypress function
-          checkLetter(currKey.letter, p1, 1, p1Words);
-          checkLetter(currKey.letter, p2, 2, p2Words);
+          // checkLetter(currKey.letter, p1, 1, p1Words);
+          // checkLetter(currKey.letter, p2, 2, p2Words);
+          switch (gameState) {
+            case 'START':
+              checkStartLetter(currKey.letter);
+              break;
+            case 'END':
+              checkEndLetter(currKey.letter);
+              break;
+            case 'MAIN':
+              checkLetter(currKey.letter, p1, 1, p1Words);
+              checkLetter(currKey.letter, p2, 2, p2Words);
+              break;
+            default: break;
+          }
         }
 
         // reset key buffer if it's down

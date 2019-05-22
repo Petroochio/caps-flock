@@ -14,6 +14,9 @@ function createWindow() {
     // fullscreen: true,
     // autoHideMenuBar: true,
     titleBarStyle: 'hidden',
+    webPreferences: {
+      nodeIntegration: true,
+    },
   });
 
   // mainWindow.setMenu(null);
